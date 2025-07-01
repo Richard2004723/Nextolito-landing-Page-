@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nextolito | Crypto Project</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nextolito | Crypto Project</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
-    <h1>Nextolito Crypto Launch</h1>
-    <p>Join the future of decentralized finance. Secure, fast, and powered by the people.</p>
-    <a href="mint.html" class="cta-button">Get Early Access</a>
-    <button class="wallet-button" onclick="connectWallet()">Connect Wallet</button>
-    <p id="wallet-address"></p>
-  </header>
+  <header>
+    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
+    <h1>Nextolito Crypto Launch</h1>
+    <p>Join the future of decentralized finance. Secure, fast, and powered by the people.</p>
+    <a href="mint.html" class="cta-button">Get Early Access</a>
+    <button class="wallet-button" onclick="connectWallet()">Connect Wallet</button>
+    <!-- Added login/signup link -->
+    <a href="login.html" class="cta-button" style="margin-left: 1rem; font-weight: bold; text-decoration: underline;">Login / Signup</a>
+    <p id="wallet-address"></p>
+  </header>
 
-  <section>
-    <h2>Why Choose Us?</h2>
-    <p>We build crypto tools for real people — low fees, high speed, and full transparency.</p>
-  </section>
+  <section>
+    <h2>Why Choose Us?</h2>
+    <p>We build crypto tools for real people — low fees, high speed, and full transparency.</p>
+  </section>
 
-  <section>
-    <h2>Coming Features</h2>
-    <ul style="list-style: none; padding: 0;">
-      <li>⚡ Wallet Integration</li>
-      <li>🔒 Token Launch Platform</li>
-      <li>📈 Live Market Dashboard</li>
-      <li>🌍 Cross-border Payments</li>
-    </ul>
-  </section>
+  <section>
+    <h2>Coming Features</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li>⚡ Wallet Integration</li>
+      <li>🔒 Token Launch Platform</li>
+      <li>📈 Live Market Dashboard</li>
+      <li>🌍 Cross-border Payments</li>
+    </ul>
+  </section>
 
-  <footer>
-    &copy; 2025 Nextolito | All rights reserved
-  </footer>
+  <footer>
+    &copy; 2025 Nextolito | All rights reserved
+  </footer>
 
-  <script>
-    async function connectWallet() {
-      if (window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          document.getElementById('wallet-address').innerText = 'Connected: ' + accounts[0];
-        } catch (error) {
-          console.error('Wallet connection failed:', error);
-        }
-      } else {
-        alert('MetaMask is not installed.');
-      }
-    }
-  </script>
+  <script>
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          document.getElementById('wallet-address').innerText = 'Connected: ' + accounts[0];
+        } catch (error) {
+          console.error('Wallet connection failed:', error);
+        }
+      } else {
+        alert('MetaMask is not installed.');
+      }
+    }
+  </script>
 </body>
 </html>
