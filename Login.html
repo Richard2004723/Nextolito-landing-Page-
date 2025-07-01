@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | Nextolito</title>
+  <link href="https://cdn.jsdelivr.net/npm/@supabase/auth-ui-js/dist/style.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #auth {
+      width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <div id="auth"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    import { Auth } from 'https://cdn.jsdelivr.net/npm/@supabase/auth-ui-js/+esm';
+
+    const supabaseUrl = 'https://your-project-id.supabase.co'; // Replace with your Supabase URL
+    const supabaseKey = 'your-anon-key'; // Replace with your anon/public API key
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const auth = new Auth(document.getElementById('auth'), {
+      supabaseClient: supabase,
+      appearance: { theme: 'default' },
+      providers: ['google', 'github'], // OAuth providers
+      socialLayout: 'horizontal',
+    });
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        // Redirect logged-in users to mint page
+        window.location.href = 'mint.html';
+      }
+    });
+  </script>
+</body>
+</html>
