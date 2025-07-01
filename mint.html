@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mint Tokens - Nextolito</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="nxt-logo.png" alt="Nextolito Logo" class="logo" />
+    <h1>Mint Your Token</h1>
+    <p>Generate a custom ERC-20 token (simulated for UI preview)</p>
+    <button class="cta-button" onclick="location.href='index.html'">Back to Home</button>
+  </header>
+
+  <section>
+    <input type="text" id="tokenName" placeholder="Token Name" />
+    <input type="text" id="tokenSymbol" placeholder="Symbol" />
+    <input type="number" id="tokenSupply" placeholder="Total Supply" />
+    <br />
+    <button class="mint-button" onclick="mintToken()">Mint Token</button>
+    <p id="mint-status"></p>
+  </section>
+
+  <footer>&copy; 2025 Nextolito | All rights reserved</footer>
+
+  <script>
+    function mintToken() {
+      const name = document.getElementById('tokenName').value;
+      const symbol = document.getElementById('tokenSymbol').value;
+      const supply = document.getElementById('tokenSupply').value;
+
+      if (!name || !symbol || !supply) {
+        document.getElementById('mint-status').innerText = 'Please fill in all fields.';
+        return;
+      }
+
+      document.getElementById('mint-status').innerText = `Minted ${supply} ${symbol} (${name}) tokens! (Simulated)`;
+    }
+  </script>
+</body>
+</html>
