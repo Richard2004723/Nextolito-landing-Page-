@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nextolito - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="nxt-logo.png" alt="Nextolito Logo" class="logo" />
+    <h1>Nextolito Crypto Launch</h1>
+    <p>Join the future of decentralized finance. Secure, fast, and powered by the people.</p>
+    <button class="cta-button" onclick="location.href='mint.html'">Go to Mint Page</button>
+    <button class="wallet-button" onclick="connectWallet()">Connect Wallet</button>
+    <p id="wallet-address"></p>
+  </header>
+
+  <section>
+    <h2>Why Choose Us?</h2>
+    <p>We build crypto tools for real people — low fees, high speed, and full transparency.</p>
+  </section>
+
+  <section>
+    <h2>Coming Features</h2>
+    <ul>
+      <li>⚡ Wallet Integration</li>
+      <li>🔒 Token Launch Platform</li>
+      <li>📈 Live Market Dashboard</li>
+      <li>🌍 Cross-border Payments</li>
+    </ul>
+  </section>
+
+  <footer>&copy; 2025 Nextolito | All rights reserved</footer>
+
+  <script>
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          document.getElementById('wallet-address').innerText = 'Connected: ' + accounts[0];
+        } catch (error) {
+          console.error('User rejected wallet connection:', error);
+        }
+      } else {
+        alert('Please install MetaMask to use this feature.');
+      }
+    }
+  </script>
+</body>
+  </html>
+  
