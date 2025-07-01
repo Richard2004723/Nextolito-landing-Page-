@@ -12,9 +12,13 @@
     <h1>Nextolito Crypto Launch</h1>
     <p>Join the future of decentralized finance. Secure, fast, and powered by the people.</p>
     <a href="mint.html" class="cta-button">Get Early Access</a>
-    <button class="wallet-button" onclick="connectWallet()">Connect Wallet</button>
-    <!-- Added login/signup link -->
-    <a href="login.html" class="cta-button" style="margin-left: 1rem; font-weight: bold; text-decoration: underline;">Login / Signup</a>
+
+    <!-- Flex container for wallet + login -->
+    <div class="auth-actions">
+      <button class="wallet-button" onclick="connectWallet()">Connect Wallet</button>
+      <a href="login.html" class="login-link">Login / Signup</a>
+    </div>
+
     <p id="wallet-address"></p>
   </header>
 
