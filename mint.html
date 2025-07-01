@@ -15,10 +15,10 @@
   </header>
 
   <section>
-    <input type="text" id="tokenName" placeholder="Token Name">
-    <input type="text" id="tokenSymbol" placeholder="Symbol">
-    <input type="number" id="tokenSupply" placeholder="Total Supply">
-    <br>
+    <input type="text" id="tokenName" placeholder="Token Name" />
+    <input type="text" id="tokenSymbol" placeholder="Symbol" />
+    <input type="number" id="tokenSupply" placeholder="Total Supply" />
+    <br />
     <button class="mint-button" id="mintButton">Mint Token</button>
     <p id="mint-status"></p>
   </section>
@@ -30,16 +30,41 @@
   <script type="module">
     import { supabase } from './supabase.js';
 
-    async function storeMintActivity(name, symbol, supply) {
-      const { error } = await supabase
-        .from('mint_logs')
-        .insert([{ name, symbol, supply }]);
+    async function getUserId() {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        alert("You must be logged in to mint tokens!");
+        throw new Error("User not authenticated");
+      }
+      return data.user.id;
+    }
 
-      if (error) {
-        console.error('Supabase Error:', error.message);
-        document.getElementById('mint-status').innerText = 'Minted (but failed to log in Supabase)';
-      } else {
-        document.getElementById('mint-status').innerText = `Minted ${supply} ${symbol} (${name}) tokens!`;
+    async function connectWallet() {
+      if (!window.ethereum) {
+        alert('Please install MetaMask or another Ethereum wallet.');
+        throw new Error('No wallet detected');
+      }
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      return accounts[0];
+    }
+
+    async function storeMintActivity(name, symbol, supply, wallet) {
+      try {
+        const user_id = await getUserId();
+
+        const { error } = await supabase
+          .from('mint_logs')
+          .insert([{ name, symbol, supply, wallet, user_id }]);
+
+        if (error) {
+          console.error('Supabase Insert Error:', error.message);
+          document.getElementById('mint-status').innerText = 'Mint failed: Could not log to database.';
+        } else {
+          document.getElementById('mint-status').innerText = `Minted ${supply} ${symbol} (${name}) successfully!`;
+        }
+      } catch (e) {
+        console.error(e);
+        document.getElementById('mint-status').innerText = 'Mint failed: ' + e.message;
       }
     }
 
@@ -53,8 +78,12 @@
         return;
       }
 
-      // Simulated minting
-      await storeMintActivity(name, symbol, parseInt(supply));
+      try {
+        const wallet = await connectWallet();
+        await storeMintActivity(name, symbol, parseInt(supply), wallet);
+      } catch (error) {
+        document.getElementById('mint-status').innerText = error.message;
+      }
     });
   </script>
 </body>
