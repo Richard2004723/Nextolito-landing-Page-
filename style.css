@@ -79,6 +79,51 @@ footer {
   justify-content: center;   /* Center container horizontally */
 }
 
+.auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.wallet-button,
+.login-link {
+  min-width: 140px;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #00ffe7;
+  color: #000;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+
+.wallet-button:hover,
+.login-link:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 480px) {
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .wallet-button,
+  .login-link {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+
 /* Login link styled like button */
 .login-link {
   background-color: #00ffe7;
