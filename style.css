@@ -1,51 +1,132 @@
-/* Container to hold wallet button + login link aligned horizontally */
+/* ===== Global styles ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-align: center;
+}
+
+header {
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #00ffe7;
+}
+
+p {
+  color: #ccc;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+section {
+  padding: 2rem;
+}
+
+input {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
+  margin: 0.5rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+}
+
+footer {
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* ===== Buttons and links ===== */
+.cta-button,
+.wallet-button,
+.mint-button {
+  background-color: #00ffe7;
+  color: #000;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin: 1rem;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-button:hover,
+.wallet-button:hover,
+.mint-button:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Auth actions container ===== */
 .auth-actions {
-  display: inline-flex;          /* Align horizontally */
-  align-items: center;           /* Vertically center */
-  gap: 1rem;                    /* Space between buttons */
-  margin-top: 1rem;              /* Space above container */
+  display: inline-flex;      /* Horizontal alignment */
+  align-items: center;       /* Vertical center */
+  gap: 1rem;                 /* Space between buttons */
+  margin-top: 1rem;
+  justify-content: center;   /* Center container horizontally */
 }
 
-/* Make login link look like a button to match wallet button */
+/* Login link styled like button */
 .login-link {
-  background: #00ffe7;
-  color: #000;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
-  transition: transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #00ffe7;
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  user-select: none;
 }
 
+/* Hover effect for login link matches buttons */
 .login-link:hover {
-  transform: scale(1.05);
+  transform: scale(1.05);
 }
 
-/* Optional: make wallet-button and login-link same width for perfect symmetry */
-.wallet-button, .login-link {
-  min-width: 140px;
-  justify-content: center;
+/* Equal width for wallet button and login link */
+.wallet-button,
+.login-link {
+  min-width: 140px;
+  justify-content: center;
+  border: none;
+  user-select: none;
 }
 
-/* Override margin on buttons inside .auth-actions to avoid double margin */
+/* Remove margin inside auth-actions to avoid double spacing */
 .auth-actions .wallet-button,
 .auth-actions .login-link {
-  margin: 0;
+  margin: 0;
 }
 
-/* Responsive tweak: stack vertically on narrow screens */
+/* Responsive: stack buttons vertically on small screens */
 @media (max-width: 480px) {
-  .auth-actions {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  .wallet-button, .login-link {
-    min-width: auto;
-    width: 100%;
-  }
-}
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .wallet-button,
+  .login-link {
+    min-width: auto;
+    width: 100%;
+  }
+  }
