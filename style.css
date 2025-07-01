@@ -1,59 +1,51 @@
-body {
-  margin: 0;
-  padding: 0;
-  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
-  font-family: 'Orbitron', sans-serif;
-  color: white;
-  text-align: center;
+/* Container to hold wallet button + login link aligned horizontally */
+.auth-actions {
+  display: inline-flex;          /* Align horizontally */
+  align-items: center;           /* Vertically center */
+  gap: 1rem;                    /* Space between buttons */
+  margin-top: 1rem;              /* Space above container */
 }
 
-header {
-  padding: 2rem;
-}
-
-h1 {
-  font-size: 2.5rem;
-  color: #00ffe7;
-}
-
-p {
-  color: #ccc;
-  font-size: 1.1rem;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-}
-
-.cta-button, .wallet-button, .mint-button {
+/* Make login link look like a button to match wallet button */
+.login-link {
   background: #00ffe7;
   color: #000;
   padding: 1rem 2rem;
-  border: none;
   border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  margin: 1rem;
   text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cta-button:hover, .wallet-button:hover, .mint-button:hover {
+.login-link:hover {
   transform: scale(1.05);
 }
 
-section {
-  padding: 2rem;
+/* Optional: make wallet-button and login-link same width for perfect symmetry */
+.wallet-button, .login-link {
+  min-width: 140px;
+  justify-content: center;
 }
 
-input {
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: none;
-  margin: 0.5rem;
-  font-family: 'Orbitron', sans-serif;
+/* Override margin on buttons inside .auth-actions to avoid double margin */
+.auth-actions .wallet-button,
+.auth-actions .login-link {
+  margin: 0;
 }
 
-footer {
-  padding: 1rem;
-  font-size: 0.8rem;
-  color: #888;
+/* Responsive tweak: stack vertically on narrow screens */
+@media (max-width: 480px) {
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .wallet-button, .login-link {
+    min-width: auto;
+    width: 100%;
+  }
 }
