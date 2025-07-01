@@ -26,8 +26,8 @@
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
     import { Auth } from 'https://cdn.jsdelivr.net/npm/@supabase/auth-ui-js/+esm';
 
-    const supabaseUrl = 'https://your-project-id.supabase.co'; // Replace with your Supabase URL
-    const supabaseKey = 'your-anon-key'; // Replace with your anon/public API key
+    const supabaseUrl = 'https://nmouxytgcmhrhuenlmai.supabase.co'; // Replace with your Supabase URL
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5tb3V4eXRnY21ocmh1ZW5sbWFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEzOTk1NjAsImV4cCI6MjA2Njk3NTU2MH0.1uO3GqgFIg48fJB7lGCjMng35n405rm5qwZR2X_rVXY'; // Replace with your anon/public API key
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     const auth = new Auth(document.getElementById('auth'), {
