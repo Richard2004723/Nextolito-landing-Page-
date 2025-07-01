@@ -1,45 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mint Token | Nextolito</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mint Token | Nextolito</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
-    <h1>Mint Your Token</h1>
-    <p>Create your custom token in seconds.</p>
-    <a href="index.html" class="cta-button">← Back Home</a>
-  </header>
+  <header>
+    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
+    <h1>Mint Your Token</h1>
+    <p>Create your custom token in seconds.</p>
+    <a href="index.html" class="cta-button">← Back Home</a>
+  </header>
 
-  <section>
-    <input type="text" id="tokenName" placeholder="Token Name">
-    <input type="text" id="tokenSymbol" placeholder="Symbol">
-    <input type="number" id="tokenSupply" placeholder="Total Supply">
-    <br>
-    <button class="mint-button" onclick="mintToken()">Mint Token</button>
-    <p id="mint-status"></p>
-  </section>
+  <section>
+    <input type="text" id="tokenName" placeholder="Token Name">
+    <input type="text" id="tokenSymbol" placeholder="Symbol">
+    <input type="number" id="tokenSupply" placeholder="Total Supply">
+    <br>
+    <button class="mint-button" id="mintButton">Mint Token</button>
+    <p id="mint-status"></p>
+  </section>
 
-  <footer>
-    &copy; 2025 Nextolito | All rights reserved
-  </footer>
+  <footer>
+    &copy; 2025 Nextolito | All rights reserved
+  </footer>
 
-  <script>
-    function mintToken() {
-      const name = document.getElementById('tokenName').value;
-      const symbol = document.getElementById('tokenSymbol').value;
-      const supply = document.getElementById('tokenSupply').value;
+  <script type="module">
+    import { supabase } from './supabase.js';
 
-      if (!name || !symbol || !supply) {
-        document.getElementById('mint-status').innerText = 'Fill all fields.';
-        return;
-      }
+    async function storeMintActivity(name, symbol, supply) {
+      const { error } = await supabase
+        .from('mint_logs')
+        .insert([{ name, symbol, supply }]);
 
-      document.getElementById('mint-status').innerText = `Minted ${supply} ${symbol} (${name}) tokens! (Simulated)`;
-    }
-  </script>
+      if (error) {
+        console.error('Supabase Error:', error.message);
+        document.getElementById('mint-status').innerText = 'Minted (but failed to log in Supabase)';
+      } else {
+        document.getElementById('mint-status').innerText = `Minted ${supply} ${symbol} (${name}) tokens!`;
+      }
+    }
+
+    document.getElementById('mintButton').addEventListener('click', async () => {
+      const name = document.getElementById('tokenName').value.trim();
+      const symbol = document.getElementById('tokenSymbol').value.trim();
+      const supply = document.getElementById('tokenSupply').value.trim();
+
+      if (!name || !symbol || !supply) {
+        document.getElementById('mint-status').innerText = 'Fill all fields.';
+        return;
+      }
+
+      // Simulated minting
+      await storeMintActivity(name, symbol, parseInt(supply));
+    });
+  </script>
 </body>
 </html>
