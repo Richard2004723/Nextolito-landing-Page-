@@ -1,51 +1,51 @@
 /* Container to hold wallet button + login link aligned horizontally */
 .auth-actions {
-  display: inline-flex;          /* Align horizontally */
-  align-items: center;           /* Vertically center */
-  gap: 1rem;                    /* Space between buttons */
-  margin-top: 1rem;              /* Space above container */
+  display: inline-flex;          /* Align horizontally */
+  align-items: center;           /* Vertically center */
+  gap: 1rem;                    /* Space between buttons */
+  margin-top: 1rem;              /* Space above container */
 }
 
 /* Make login link look like a button to match wallet button */
 .login-link {
-  background: #00ffe7;
-  color: #000;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
-  transition: transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  background: #00ffe7;
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-link:hover {
-  transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Optional: make wallet-button and login-link same width for perfect symmetry */
 .wallet-button, .login-link {
-  min-width: 140px;
-  justify-content: center;
+  min-width: 140px;
+  justify-content: center;
 }
 
 /* Override margin on buttons inside .auth-actions to avoid double margin */
 .auth-actions .wallet-button,
 .auth-actions .login-link {
-  margin: 0;
+  margin: 0;
 }
 
 /* Responsive tweak: stack vertically on narrow screens */
 @media (max-width: 480px) {
-  .auth-actions {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  .wallet-button, .login-link {
-    min-width: auto;
-    width: 100%;
-  }
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .wallet-button, .login-link {
+    min-width: auto;
+    width: 100%;
+  }
 }
