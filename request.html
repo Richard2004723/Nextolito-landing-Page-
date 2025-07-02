@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Request NXT Tokens | Nextolito</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
+    <h1>Request NXT Tokens</h1>
+    <p>Submit your wallet address to receive free NXT tokens</p>
+    <a href="index.html" class="cta-button">← Back Home</a>
+  </header>
+
+  <section>
+    <input type="text" id="walletAddress" placeholder="Your Wallet Address (0x...)" />
+    <input type="email" id="userEmail" placeholder="Your Email (optional)" />
+    <input type="number" id="requestAmount" placeholder="Amount Requested" value="100" />
+    <br />
+    <button class="mint-button" id="requestButton">Request Tokens</button>
+    <p id="request-status"></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Nextolito | All rights reserved
+  </footer>
+
+  <script type="module">
+    import { supabase } from './supabase.js';
+
+    document.getElementById('requestButton').addEventListener('click', async () => {
+      const wallet = document.getElementById('walletAddress').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
+      const amount = document.getElementById('requestAmount').value.trim();
+
+      if (!wallet) {
+        document.getElementById('request-status').innerText = 'Please enter your wallet address.';
+        return;
+      }
+
+      if (!wallet.startsWith('0x') || wallet.length !== 42) {
+        document.getElementById('request-status').innerText = 'Please enter a valid Ethereum wallet address.';
+        return;
+      }
+
+      try {
+        const { error } = await supabase
+          .from('token_requests')
+          .insert([{ 
+            wallet_address: wallet, 
+            email: email || null, 
+            amount_requested: parseInt(amount) || 100,
+            status: 'pending',
+            created_at: new Date().toISOString()
+          }]);
+
+        if (error) {
+          console.error('Supabase Insert Error:', error.message);
+          document.getElementById('request-status').innerText = 'Request failed: Could not submit to database.';
+        } else {
+          document.getElementById('request-status').innerText = 'Token request submitted! You will receive NXT tokens within 24 hours.';
+          // Clear form
+          document.getElementById('walletAddress').value = '';
+          document.getElementById('userEmail').value = '';
+        }
+      } catch (e) {
+        console.error(e);
+        document.getElementById('request-status').innerText = 'Request failed: ' + e.message;
+      }
+    });
+  </script>
+</body>
+</html>
