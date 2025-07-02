@@ -15,13 +15,35 @@
   </header>
 
   <section>
-    <input type="text" id="tokenName" placeholder="Token Name" />
-    <input type="text" id="tokenSymbol" placeholder="Symbol" />
-    <input type="number" id="tokenSupply" placeholder="Total Supply" />
-    <br />
-    <button class="mint-button" id="mintButton">Mint Token</button>
-    <p id="mint-status"></p>
-  </section>
+    <div class="mint-tabs">
+      <button class="tab-button active" onclick="showTab('token')">Token Minting</button>
+      <button class="tab-button" onclick="showTab('nft')">NFT Minting</button>
+    </div>
+
+    <!-- Token Minting Section -->
+    <div id="token-section" class="mint-section active">
+      <h2>Create Your Token</h2>
+      <input type="text" id="tokenName" placeholder="Token Name" />
+      <input type="text" id="tokenSymbol" placeholder="Symbol" />
+      <input type="number" id="tokenSupply" placeholder="Total Supply" />
+      <br />
+      <button class="mint-button" id="mintButton">Mint Token</button>
+      <p id="mint-status"></p>
+    </div>
+
+    <!-- NFT Minting Section -->
+    <div id="nft-section" class="mint-section">
+      <h2>Create Your NFT Collection</h2>
+      <input type="text" id="nftName" placeholder="NFT Collection Name" />
+      <input type="text" id="nftSymbol" placeholder="NFT Symbol" />
+      <input type="text" id="nftDescription" placeholder="Collection Description" />
+      <input type="url" id="nftImage" placeholder="Image URL" />
+      <input type="number" id="nftSupply" placeholder="Total NFTs in Collection" />
+      <br />
+      <button class="mint-button" id="mintNFTButton">Mint NFT Collection</button>
+      <p id="nft-status"></p>
+    </div>
+  </section>
 
   <footer>
     &copy; 2025 Nextolito | All rights reserved
@@ -68,23 +90,93 @@
       }
     }
 
-    document.getElementById('mintButton').addEventListener('click', async () => {
-      const name = document.getElementById('tokenName').value.trim();
-      const symbol = document.getElementById('tokenSymbol').value.trim();
-      const supply = document.getElementById('tokenSupply').value.trim();
+    // Tab switching functionality
+    window.showTab = (tabName) => {
+      // Hide all sections
+      document.querySelectorAll('.mint-section').forEach(section => {
+        section.classList.remove('active');
+      });
 
-      if (!name || !symbol || !supply) {
-        document.getElementById('mint-status').innerText = 'Fill all fields.';
-        return;
-      }
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+      });
 
-      try {
-        const wallet = await connectWallet();
-        await storeMintActivity(name, symbol, parseInt(supply), wallet);
-      } catch (error) {
-        document.getElementById('mint-status').innerText = error.message;
-      }
-    });
+      // Show selected section
+      document.getElementById(tabName + '-section').classList.add('active');
+
+      // Add active class to clicked button
+      event.target.classList.add('active');
+    };
+
+    // Store NFT mint activity
+    async function storeNFTActivity(name, symbol, description, image, supply, wallet) {
+      try {
+        const user_id = await getUserId();
+
+        const { error } = await supabase
+          .from('nft_logs')
+          .insert([{ 
+            collection_name: name, 
+            symbol, 
+            description, 
+            image_url: image,
+            supply, 
+            wallet, 
+            user_id 
+          }]);
+
+        if (error) {
+          console.error('Supabase NFT Insert Error:', error.message);
+          document.getElementById('nft-status').innerText = 'NFT mint failed: Could not log to database.';
+        } else {
+          document.getElementById('nft-status').innerText = `NFT Collection "${name}" (${supply} NFTs) created successfully!`;
+        }
+      } catch (e) {
+        console.error(e);
+        document.getElementById('nft-status').innerText = 'NFT mint failed: ' + e.message;
+      }
+    }
+
+    // Token minting
+    document.getElementById('mintButton').addEventListener('click', async () => {
+      const name = document.getElementById('tokenName').value.trim();
+      const symbol = document.getElementById('tokenSymbol').value.trim();
+      const supply = document.getElementById('tokenSupply').value.trim();
+
+      if (!name || !symbol || !supply) {
+        document.getElementById('mint-status').innerText = 'Fill all fields.';
+        return;
+      }
+
+      try {
+        const wallet = await connectWallet();
+        await storeMintActivity(name, symbol, parseInt(supply), wallet);
+      } catch (error) {
+        document.getElementById('mint-status').innerText = error.message;
+      }
+    });
+
+    // NFT minting
+    document.getElementById('mintNFTButton').addEventListener('click', async () => {
+      const name = document.getElementById('nftName').value.trim();
+      const symbol = document.getElementById('nftSymbol').value.trim();
+      const description = document.getElementById('nftDescription').value.trim();
+      const image = document.getElementById('nftImage').value.trim();
+      const supply = document.getElementById('nftSupply').value.trim();
+
+      if (!name || !symbol || !description || !supply) {
+        document.getElementById('nft-status').innerText = 'Fill all required fields.';
+        return;
+      }
+
+      try {
+        const wallet = await connectWallet();
+        await storeNFTActivity(name, symbol, description, image, parseInt(supply), wallet);
+      } catch (error) {
+        document.getElementById('nft-status').innerText = error.message;
+      }
+    });
   </script>
 </body>
 </html>
