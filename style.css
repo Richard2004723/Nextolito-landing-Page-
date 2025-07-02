@@ -72,50 +72,12 @@ footer {
 
 /* ===== Auth actions container ===== */
 .auth-actions {
-  display: inline-flex;      /* Horizontal alignment */
-  align-items: center;       /* Vertical center */
-  gap: 1rem;                 /* Space between buttons */
-  margin-top: 1rem;
-  justify-content: center;   /* Center container horizontally */
-}
-
-/* ===== Mint page tabs ===== */
-.mint-tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
-}
-
-.tab-button {
-  background-color: #333;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.tab-button.active {
-  background-color: #00ffe7;
-  color: #000;
-}
-
-.mint-section {
-  display: none;
-}
-
-.mint-section.active {
-  display: block;
-}
-
-.auth-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  align-items: center;
 }
 
 .wallet-button,
@@ -205,135 +167,173 @@ footer {
     min-width: auto;
     width: 100%;
   }
+  }/* ===== Global styles ===== */
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at center, #0f0c29, #302b63, #24243e);
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-align: center;
 }
 
-/* ===== Tools Dashboard Styles ===== */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+header {
   padding: 2rem;
 }
 
-.tool-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 2rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 255, 231, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.tool-card:hover {
-  transform: translateY(-5px);
-  border-color: #00ffe7;
-}
-
-.tool-card h2 {
+h1 {
+  font-size: 2.5rem;
   color: #00ffe7;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
 }
 
-.tool-card input,
-.tool-card select {
-  width: 100%;
-  margin: 0.5rem 0;
+p {
+  color: #ccc;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+section {
+  padding: 2rem;
+}
+
+input {
   padding: 0.8rem;
   border-radius: 8px;
   border: none;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000;
+  margin: 0.5rem;
   font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
 }
 
-.market-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.stat-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 255, 231, 0.2);
-}
-
-.stat-label {
-  color: #ccc;
-}
-
-.stat-value {
-  color: #00ffe7;
-  font-weight: bold;
-}
-
-.stat-value.positive {
-  color: #00ff88;
-}
-
-.stat-value.negative {
-  color: #ff6b6b;
-}
-
-.revenue-stats,
-.balance-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.airdrop-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.airdrop-stats {
-  background: rgba(0, 255, 231, 0.1);
+footer {
   padding: 1rem;
-  border-radius: 8px;
-  margin: 1rem 0;
+  font-size: 0.8rem;
+  color: #888;
 }
 
-.airdrop-stats p {
-  margin: 0.5rem 0;
-  color: #00ffe7;
+/* ===== Buttons and links ===== */
+.cta-button,
+.wallet-button,
+.mint-button {
+  background-color: #00ffe7;
+  color: #000;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin: 1rem;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.fee-settings {
+.cta-button:hover,
+.wallet-button:hover,
+.mint-button:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Auth actions container ===== */
+.auth-actions {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
 }
 
-.fee-settings label {
-  color: #00ffe7;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.wallet-button,
+.login-link {
+  min-width: 140px;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #00ffe7;
+  color: #000;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  user-select: none;
 }
 
-.stat-value.negative {
-  color: #ff4444;
+.wallet-button:hover,
+.login-link:hover {
+  transform: scale(1.05);
 }
 
-.balance-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1rem 0;
+@media (max-width: 480px) {
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .wallet-button,
+  .login-link {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
-.balance-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.8rem;
-  background: rgba(0, 255, 231, 0.1);
-  border-radius: 8px;
-  color: #fff;
+
+/* Login link styled like button */
+.login-link {
+  background-color: #00ffe7;
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  user-select: none;
 }
+
+/* Hover effect for login link matches buttons */
+.login-link:hover {
+  transform: scale(1.05);
+}
+
+/* Equal width for wallet button and login link */
+.wallet-button,
+.login-link {
+  min-width: 140px;
+  justify-content: center;
+  border: none;
+  user-select: none;
+}
+
+/* Remove margin inside auth-actions to avoid double spacing */
+.auth-actions .wallet-button,
+.auth-actions .login-link {
+  margin: 0;
+}
+
+/* Responsive: stack buttons vertically on small screens */
+@media (max-width: 480px) {
+  .auth-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .wallet-button,
+  .login-link {
+    min-width: auto;
+    width: 100%;
+  }
+  }
