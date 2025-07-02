@@ -84,6 +84,63 @@
       </div>
       <button class="mint-button" onclick="updateBalance()">Update Balance</button>
     </div>
+
+    <!-- Revenue Dashboard -->
+    <div class="tool-card">
+      <h2>💸 Revenue Dashboard</h2>
+      <div class="revenue-stats">
+        <div class="stat-item">
+          <span class="stat-label">Presale Revenue:</span>
+          <span class="stat-value" id="presaleRevenue">$0.00</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Transaction Fees:</span>
+          <span class="stat-value" id="transactionFees">$0.00</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Token Appreciation:</span>
+          <span class="stat-value positive" id="tokenAppreciation">+$0.00</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total Earnings:</span>
+          <span class="stat-value" id="totalEarnings">$0.00</span>
+        </div>
+      </div>
+      <button class="mint-button" onclick="updateRevenue()">Refresh Revenue</button>
+    </div>
+
+    <!-- Airdrop Management -->
+    <div class="tool-card">
+      <h2>🪂 Airdrop Manager</h2>
+      <div class="airdrop-controls">
+        <input type="number" id="airdropAmount" placeholder="Tokens per user" value="100" />
+        <input type="number" id="airdropLimit" placeholder="Max participants" value="1000" />
+        <div class="airdrop-stats">
+          <p>Current Participants: <span id="airdropParticipants">0</span></p>
+          <p>Tokens Distributed: <span id="tokensDistributed">0</span></p>
+          <p>Estimated Value Growth: <span id="valueGrowth">+$0</span></p>
+        </div>
+        <button class="mint-button" id="startAirdropButton">Launch Airdrop Campaign</button>
+      </div>
+    </div>
+
+    <!-- Fee Structure -->
+    <div class="tool-card">
+      <h2>⚡ Fee Structure</h2>
+      <div class="fee-settings">
+        <label>Transfer Fee (%):</label>
+        <input type="number" id="transferFee" value="0.5" step="0.1" min="0" max="5" />
+        
+        <label>Withdrawal Fee (%):</label>
+        <input type="number" id="withdrawalFee" value="1.0" step="0.1" min="0" max="10" />
+        
+        <label>Trading Fee (%):</label>
+        <input type="number" id="tradingFee" value="0.3" step="0.1" min="0" max="3" />
+        
+        <button class="mint-button" onclick="updateFees()">Update Fee Structure</button>
+        <p id="fee-status"></p>
+      </div>
+    </div>
   </section>
 
   <footer>
@@ -219,13 +276,91 @@
       document.getElementById('totalValue').innerText = `$${parseFloat(totalValue).toLocaleString()}`;
     }
 
+    // Revenue tracking
+    function updateRevenue() {
+      const presaleRevenue = Math.random() * 50000 + 10000;
+      const transactionFees = Math.random() * 5000 + 1000;
+      const tokenAppreciation = Math.random() * 100000 + 20000;
+      const totalEarnings = presaleRevenue + transactionFees + tokenAppreciation;
+
+      document.getElementById('presaleRevenue').innerText = `$${presaleRevenue.toFixed(2)}`;
+      document.getElementById('transactionFees').innerText = `$${transactionFees.toFixed(2)}`;
+      document.getElementById('tokenAppreciation').innerText = `+$${tokenAppreciation.toFixed(2)}`;
+      document.getElementById('totalEarnings').innerText = `$${totalEarnings.toFixed(2)}`;
+    }
+
+    // Airdrop management
+    document.getElementById('startAirdropButton').addEventListener('click', async () => {
+      const airdropAmount = document.getElementById('airdropAmount').value;
+      const airdropLimit = document.getElementById('airdropLimit').value;
+
+      if (!airdropAmount || !airdropLimit) {
+        alert('Please fill in airdrop parameters.');
+        return;
+      }
+
+      try {
+        // Connect wallet
+        if (!window.ethereum) {
+          alert('Please install MetaMask.');
+          return;
+        }
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const wallet = accounts[0];
+
+        // Store airdrop campaign
+        const { error } = await supabase
+          .from('airdrop_campaigns')
+          .insert([{
+            creator_wallet: wallet,
+            tokens_per_user: parseInt(airdropAmount),
+            max_participants: parseInt(airdropLimit),
+            status: 'active',
+            created_at: new Date().toISOString()
+          }]);
+
+        if (error) {
+          alert('Airdrop launch failed: ' + error.message);
+        } else {
+          alert(`Airdrop launched! ${airdropAmount} NXT per user, max ${airdropLimit} participants.`);
+          updateAirdropStats();
+        }
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    });
+
+    function updateAirdropStats() {
+      const participants = Math.floor(Math.random() * 800 + 100);
+      const tokensDistributed = participants * 100;
+      const valueGrowth = tokensDistributed * 0.01 * 2; // Estimated 2x growth
+
+      document.getElementById('airdropParticipants').innerText = participants.toLocaleString();
+      document.getElementById('tokensDistributed').innerText = tokensDistributed.toLocaleString();
+      document.getElementById('valueGrowth').innerText = `+$${valueGrowth.toFixed(2)}`;
+    }
+
+    function updateFees() {
+      const transferFee = document.getElementById('transferFee').value;
+      const withdrawalFee = document.getElementById('withdrawalFee').value;
+      const tradingFee = document.getElementById('tradingFee').value;
+
+      document.getElementById('fee-status').innerText = 
+        `Fees updated: Transfer ${transferFee}%, Withdrawal ${withdrawalFee}%, Trading ${tradingFee}%`;
+    }
+
     // Make functions global
     window.refreshMarketData = refreshMarketData;
     window.updateBalance = updateBalance;
+    window.updateRevenue = updateRevenue;
+    window.updateFees = updateFees;
 
     // Initialize with sample data
     refreshMarketData();
     updateBalance();
+    updateRevenue();
+    updateAirdropStats();
   </script>
 </body>
 </html>

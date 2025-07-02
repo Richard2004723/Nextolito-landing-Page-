@@ -246,6 +246,48 @@ footer {
 }
 
 .stat-value.negative {
+  color: #ff6b6b;
+}
+
+.revenue-stats,
+.balance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.airdrop-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.airdrop-stats {
+  background: rgba(0, 255, 231, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.airdrop-stats p {
+  margin: 0.5rem 0;
+  color: #00ffe7;
+}
+
+.fee-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fee-settings label {
+  color: #00ffe7;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value.negative {
   color: #ff4444;
 }
 
