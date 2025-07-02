@@ -72,19 +72,12 @@ footer {
 
 /* ===== Auth actions container ===== */
 .auth-actions {
-  display: inline-flex;      /* Horizontal alignment */
-  align-items: center;       /* Vertical center */
-  gap: 1rem;                 /* Space between buttons */
-  margin-top: 1rem;
-  justify-content: center;   /* Center container horizontally */
-}
-
-.auth-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  align-items: center;
 }
 
 .wallet-button,
