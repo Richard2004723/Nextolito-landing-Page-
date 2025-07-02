@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Nextolito</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="Logo.png" alt="Nextolito Logo" style="width:100px;margin-bottom:1rem;" />
+    <h1>Admin Dashboard</h1>
+    <p>Manage token requests and distributions</p>
+    <a href="index.html" class="cta-button">← Back Home</a>
+  </header>
+
+  <section>
+    <h2>Pending Token Requests</h2>
+    <div id="pending-requests"></div>
+    
+    <h2>Distribution Tools</h2>
+    <div class="tool-card">
+      <h3>Batch Send Tokens</h3>
+      <textarea id="batchAddresses" placeholder="Enter wallet addresses (one per line)"></textarea>
+      <input type="number" id="batchAmount" placeholder="Tokens per address" value="100" />
+      <button class="mint-button" onclick="generateBatchScript()">Generate Transfer Script</button>
+      <div id="batch-output"></div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { supabase } from './supabase.js';
+
+    async function loadPendingRequests() {
+      try {
+        const { data, error } = await supabase
+          .from('token_requests')
+          .select('*')
+          .eq('status', 'pending')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error loading requests:', error);
+          return;
+        }
+
+        const container = document.getElementById('pending-requests');
+        container.innerHTML = '';
+
+        data.forEach(request => {
+          const requestDiv = document.createElement('div');
+          requestDiv.className = 'tool-card';
+          requestDiv.innerHTML = `
+            <p><strong>Wallet:</strong> ${request.wallet_address}</p>
+            <p><strong>Amount:</strong> ${request.amount_requested} NXT</p>
+            <p><strong>Email:</strong> ${request.email || 'N/A'}</p>
+            <p><strong>Date:</strong> ${new Date(request.created_at).toLocaleDateString()}</p>
+            <button class="mint-button" onclick="approveRequest('${request.id}', '${request.wallet_address}', ${request.amount_requested})">Approve & Send</button>
+            <button class="mint-button" style="background: #ff6b6b;" onclick="rejectRequest('${request.id}')">Reject</button>
+          `;
+          container.appendChild(requestDiv);
+        });
+      } catch (e) {
+        console.error('Error:', e);
+      }
+    }
+
+    window.approveRequest = async (id, wallet, amount) => {
+      try {
+        const { error } = await supabase
+          .from('token_requests')
+          .update({ status: 'approved' })
+          .eq('id', id);
+
+        if (error) {
+          alert('Error approving request: ' + error.message);
+        } else {
+          alert(`Request approved! Send ${amount} NXT to ${wallet}`);
+          loadPendingRequests();
+        }
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    };
+
+    window.rejectRequest = async (id) => {
+      try {
+        const { error } = await supabase
+          .from('token_requests')
+          .update({ status: 'rejected' })
+          .eq('id', id);
+
+        if (error) {
+          alert('Error rejecting request: ' + error.message);
+        } else {
+          alert('Request rejected');
+          loadPendingRequests();
+        }
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    };
+
+    window.generateBatchScript = () => {
+      const addresses = document.getElementById('batchAddresses').value.trim().split('\n');
+      const amount = document.getElementById('batchAmount').value;
+      
+      if (!addresses[0] || !amount) {
+        alert('Please enter addresses and amount');
+        return;
+      }
+
+      let script = `// Batch transfer script - Use in your wallet or dApp\n\n`;
+      addresses.forEach(address => {
+        if (address.trim()) {
+          script += `// Transfer ${amount} NXT to ${address.trim()}\n`;
+          script += `transfer("${address.trim()}", ${amount});\n\n`;
+        }
+      });
+
+      document.getElementById('batch-output').innerHTML = `<pre>${script}</pre>`;
+    };
+
+    // Load pending requests on page load
+    loadPendingRequests();
+  </script>
+</body>
+</html>
